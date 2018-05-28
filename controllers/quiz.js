@@ -225,3 +225,34 @@ exports.check = (req, res, next) => {
         answer
     });
 };
+
+    exports.Randomplay = (req,res,next)=> {
+        req.session.Randomplay = req.session.Randomplay || [];
+        const score =req.session.Randomplay.length;
+        models.quiz.findOne({where: {id: {[Sequelize.Op.notIn] : req.session.Randomplay }} ,order: [Sequelize.fn('RANDOM')] })
+            .then(ask =>{
+                if (ask){
+                    res.render('random_play', {ask,score});
+                } else{
+                res.render('random_nomore', {score});
+                }
+            })
+    };
+
+// GET '/quizzes/randomcheck/:quizId?answer=respuesta'
+    exports.Randomcheck = (req,res,next) => {
+        const  {quiz, query} = req;
+        req.session.Randomplay = req.session.Randomplay|| [];
+        const answer = query.answer||"";
+        const answer2 = quiz.answer;
+        const result = answer.toLowerCase().trim() === answer2.toLowerCase().trim();
+        if (result){
+            if(req.session.Randomplay.indexOf(req.quiz.id)==-1){
+            req.session.Randomplay.push(req.quiz.id)}
+        }
+        const score = req.session.Randomplay.length;
+        if (!result){
+            delete req.session.Randomplay;
+        }
+        res.render('random_result', {score,answer,result});
+    };
