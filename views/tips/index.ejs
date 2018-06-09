@@ -2,18 +2,18 @@
 <ul>
     <% for (var i in tips) { %>
         <% var tip = tips[i]; %>
-
+        <% var tipAuthorId = tip.authorId; %>
         <% var accepted = tip.accepted; %>
         <% var isAdmin = session.user && session.user.isAdmin; %>
-        <% var isQuizAuthor = session.user && quizAuthorId && quizAuthorId === session.user.id; %>
+        <% var isTipAuthor = session.user && tipAuthorId && tipAuthorId === session.user.id; %>
 
-        <% if (accepted || isAdmin || isQuizAuthor) { %>
+        <% if (accepted || isAdmin || isTipAuthor) { %>
 
             <li>
                 <%= tip.text %>
                 <small>(by <%= tip.author ? tip.author.username:'Anonymus'%>)</small>
 
-                <% if (!accepted && (isAdmin || isQuizAuthor)) { %>
+                <% if (!accepted && (isAdmin || isTipAuthor)) { %>
 
                     <a href="/quizzes/<%= quizId %>/tips/<%= tip.id %>/accept?_method=PUT">
                         <button>Accept</button>
@@ -21,11 +21,16 @@
 
                 <% } %>
 
-                <% if (isAdmin || isQuizAuthor) { %>
+                <% if (isAdmin || isTipAuthor) { %>
 
                     <a href="/quizzes/<%= quizId %>/tips/<%= tip.id %>?_method=DELETE">
                         <button>Delete</button>
                     </a>
+
+                    <a href="/quizzes/<%= quizId %>/tips/<%= tip.id %>/edit?_method=GET">
+                        <button>Edit</button>
+                    </a>
+
 
                 <% } %>
             </li>

@@ -122,6 +122,14 @@ router.get('/quizzes/:quizId(\\d+)/check', quizController.check);
 
 router.get('/quizzes/randomplay', quizController.Randomplay);
 router.get('/quizzes/randomcheck/:quizId(\\d+)', quizController.Randomcheck);
+router.get('/quizzes/:quizId(\\d+)/tips/:tipId(\\d+)/edit',
+	sessionController.loginRequired,
+	tipController.adminOrAuthorRequired,
+	tipController.edit);
+router.put('/quizzes/:quizId(\\d+)/tips/:tipId(\\d+)',
+	sessionController.loginRequired,
+	tipController.adminOrAuthorRequired,
+	tipController.update);
 
 
 
