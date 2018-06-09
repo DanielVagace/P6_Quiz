@@ -6,13 +6,13 @@ module.exports = {
         return queryInterface.bulkInsert('quizzes', [
             {
                 question: 'Capital of Italy',
-                answer: 'Rome',
+                answer: 'Roma',
                 createdAt: new Date(),
                 updatedAt: new Date()
             },
             {
                 question: 'Capital of Portugal',
-                answer: 'Lisbon',
+                answer: 'Lisboa',
                 createdAt: new Date(),
                 updatedAt: new Date()
             },
